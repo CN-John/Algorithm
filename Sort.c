@@ -165,17 +165,50 @@ void QuickSort(dataType* data, int left, int right)
 	}
 }
 
+//桶结构体
+typedef struct Bucket
+{
+	dataType bucket[10];
+	int size; 
+}Bucket;
+
+//桶排序，基于快排
+void BucketSort(dataType* data, int size, int bucketNum)
+{
+	Bucket B[bucketNum];
+	for(int i = 0; i < bucketNum; i++){ 	//初始化桶内元素个数
+		B[i].size = 0;
+	}
+	for(int i = 0; i < 10; i++){ 		//将元素分别放入相应的桶
+		B[data[i]/10].bucket[B[data[i]/10].size] = data[i];
+		B[data[i]/10].size++;
+	}
+	for(int i = 0; i < bucketNum; i++){ 	//每个桶内元素进行快排
+		QuickSort(B[i].bucket, 0, B[i].size - 1);
+	}
+		int k = 0, i = 0;
+	while(i < 10){				//将桶内元素一一返回原数组
+		for(int j = 0; j < B[k].size; j++){
+			data[i] = B[k].bucket[j];
+			i++;
+		}
+		k++;
+	}
+}
+
 int main()
 {
 	//int data[6] = {54, 19, 4, 70, 30, 2};
-	int data[9] = {19, 54, 4, 30, 70, 2, 99, 23, 95};
+	//int data[9] = {19, 54, 4, 30, 70, 2, 99, 23, 95};
+	int data[10] = {5, 2, 8, 11, 26, 34, 15, 31, 25, 35};
 	//SimpleSelectionSort(data, 6);
 	//SimpleInsertionSort(data, 6);
 	//BubbleSort(data, 6);
 	//ShellSort(data, 9);
 	//HeapSort(data, 6);
 	//MergeSort(data, 0, 5);
-	QuickSort(data, 0, 8);
+	//QuickSort(data, 0, 8);
+	BucketSort(data, 10, 4);
 	for(int i = 0; i < 6; i++){
 		printf("%d ", data[i]);
 	}
