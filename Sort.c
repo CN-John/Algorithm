@@ -125,16 +125,57 @@ void MergeSort(dataType* data, int left, int right)
 	}
 }
 
+//快速排序
+void QuickSort(dataType* data, int left, int right)
+{
+	int right_sign = right, left_sign = left + 1; 	//定义左游标和右游标
+	int pivot = data[left]; 	//定义基准数
+	int rorl = 1;
+	while(left_sign <= right_sign){ //左游标超过右游标或右游标超过左游标则停止循环
+		if(rorl == 1){		//以右游标判断
+			if(data[right_sign] < pivot){
+				data[left_sign - 1] = data[right_sign--];
+				rorl = -1; 	//右游标所指向的数移动后下次操作左游标
+			}else right_sign--;	 //若右游标所指向的数并未移动，则下次继续操作右游标
+		}else if(rorl == -1 && left_sign <= right_sign){	//以左游标判断
+			if(data[left_sign] > pivot){
+				data[right_sign + 1] = data[left_sign++];
+				rorl = 1; 	//左游标所指向的数移动后下次操作右游标
+			}else left_sign++; 	//若左游标所指向的数并未移动，则下次继续操作左游标
+		}
+	}
+	if(rorl == -1 && left < right){
+		data[left_sign] = pivot; 	//将基准返回数组空出的位置
+		QuickSort(data, left, left_sign - 1); 	//将基准以左的数组继续递归快排
+		QuickSort(data, left_sign + 1, right);	//将基准以右的数组继续递归快排
+		
+		// for(int cnt = 0; cnt < 9; cnt++){	//排序细节
+		// 	printf("%d ", data[cnt]);
+		// }
+		// printf("\n");
+	}else if(rorl == 1 && left < right){
+		data[right_sign] = pivot;
+		QuickSort(data, left, right_sign - 1);
+		QuickSort(data, right_sign + 1, right);
+		
+		// for(int cnt = 0; cnt < 9; cnt++){
+		// 	printf("%d ", data[cnt]);
+		// }
+		// printf("\n");
+	}
+}
+
 int main()
 {
-	int data[6] = {54, 19, 4, 70, 30, 2};
-	//int data[9] = {19, 54, 4, 30, 70, 2, 99, 23, 95};
+	//int data[6] = {54, 19, 4, 70, 30, 2};
+	int data[9] = {19, 54, 4, 30, 70, 2, 99, 23, 95};
 	//SimpleSelectionSort(data, 6);
 	//SimpleInsertionSort(data, 6);
 	//BubbleSort(data, 6);
 	//ShellSort(data, 9);
 	//HeapSort(data, 6);
-	MergeSort(data, 0, 5);
+	//MergeSort(data, 0, 5);
+	QuickSort(data, 0, 8);
 	for(int i = 0; i < 6; i++){
 		printf("%d ", data[i]);
 	}
