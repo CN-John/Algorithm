@@ -128,6 +128,65 @@ int DFS(int sr, int sc, int er, int ec)
 	return count; 	//返回路径数
 }
 
+/*
+int DFS(int sr, int sc, int er, int ec)
+{
+	int count = 0, R, C, D;
+	Stack S;
+	S.top = 0;
+	S.dot[S.top].r = sr; 	//处理起始点
+	S.dot[S.top].c = sc;
+	S.dot[S.top].di = -1;
+	_index[sr][sc] = -1; 	//已搜索过置为-1
+	while(S.top > -1){
+		R = S.dot[S.top].r;
+		C = S.dot[S.top].c;
+		D = S.dot[S.top].di;
+		if(R == er && C == ec){ 	//当搜索到出口，打印栈内元素，也就是搜索的路径
+			for(int i = 0; i <= S.top; i++){
+				printf("(%d,%d)",S.dot[i].r,S.dot[i].c);
+			}
+			printf("\n");
+			return 1;
+		}
+		int find = 0;
+		while(D < 4 && find == 0){
+			switch(D++){
+			case 0:		//向右遍历
+				R = S.dot[S.top].r + 1;
+				C = S.dot[S.top].c;
+				break;
+			case 1:		//向下遍历
+				R = S.dot[S.top].r;
+				C = S.dot[S.top].c + 1;
+				break;
+			case 2:		//向左遍历
+				R = S.dot[S.top].r - 1;
+				C = S.dot[S.top].c;
+				break;
+			case 3:		//向上遍历
+				R = S.dot[S.top].r;
+				C = S.dot[S.top].c - 1;
+			}
+			if(_index[R][C] == 0){ 	//可以继续搜索下一个点
+				find = 1;
+			}
+		}
+		if(find == 1){ 		//若可以搜索下一个点则将下一个点入栈
+			S.dot[S.top++].di = D;
+			S.dot[S.top].r = R;
+			S.dot[S.top].c = C;
+			S.dot[S.top].di = -1;
+			_index[R][C] = -1; 	//已搜索过置为-1
+		}else{ 			//否则回溯
+			S.top--;
+			_index[S.dot[S.top].r][S.dot[S.top].c] = 0;
+		}
+	}
+	return 0;
+}
+*/
+
 //广度优先搜索
 int BFS(int sr, int sc, int er, int ec)
 {
